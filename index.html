@@ -9,7 +9,58 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+cv:: &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -29,6 +80,38 @@
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+processEscapes: true
+}
+});
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+tex2jax: {
+skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+}
+});
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+        });
+</script>
+
+<script type="text/javascript"
+src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
 
   
 
@@ -66,6 +149,341 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/10/03/aruco-posetracker/">Aruco Posetracker</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-10-03T15:23:03+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2018</span></span> <span class='time'>3:23 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+<span class="line-number">39</span>
+<span class="line-number">40</span>
+<span class="line-number">41</span>
+<span class="line-number">42</span>
+<span class="line-number">43</span>
+<span class="line-number">44</span>
+<span class="line-number">45</span>
+<span class="line-number">46</span>
+<span class="line-number">47</span>
+<span class="line-number">48</span>
+<span class="line-number">49</span>
+<span class="line-number">50</span>
+<span class="line-number">51</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span>  <span class="n">MarkerMapPoseTracker</span><span class="o">::</span><span class="n">relocalization</span><span class="p">(</span><span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Marker</span><span class="o">&gt;&amp;</span> <span class="n">v_m</span><span class="p">){</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">        <span class="c1">//get the markers in v_m that are in the map</span>
+</span><span class="line">        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">Marker</span><span class="o">&gt;</span> <span class="n">mapMarkers</span><span class="p">;</span>
+</span><span class="line">        <span class="k">for</span> <span class="p">(</span><span class="k">auto</span> <span class="nl">marker</span> <span class="p">:</span> <span class="n">v_m</span><span class="p">)</span>
+</span><span class="line">        <span class="p">{</span>
+</span><span class="line">            <span class="k">if</span> <span class="p">(</span><span class="n">_map_mm</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">marker</span><span class="p">.</span><span class="n">id</span><span class="p">)</span> <span class="o">!=</span> <span class="n">_map_mm</span><span class="p">.</span><span class="n">end</span><span class="p">())</span>
+</span><span class="line">                <span class="n">mapMarkers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">marker</span><span class="p">);</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">        <span class="k">if</span><span class="p">(</span> <span class="n">mapMarkers</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="k">return</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">();</span>
+</span><span class="line">        <span class="k">struct</span> <span class="n">minfo</span><span class="p">{</span>
+</span><span class="line">            <span class="kt">int</span> <span class="n">id</span><span class="p">;</span>
+</span><span class="line">            <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">rt_f2m</span><span class="p">;</span>
+</span><span class="line">            <span class="kt">double</span> <span class="n">err</span><span class="p">;</span>
+</span><span class="line">        <span class="p">};</span>
+</span><span class="line">        <span class="k">struct</span> <span class="n">se3</span><span class="p">{</span><span class="kt">float</span> <span class="n">rt</span><span class="p">[</span><span class="mi">6</span><span class="p">];};</span>
+</span><span class="line">
+</span><span class="line">        <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">pose_f2g_out</span><span class="p">;</span><span class="c1">//result</span>
+</span><span class="line">        <span class="c1">//estimate the markers locations and see if there is at least one good enough</span>
+</span><span class="line">        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">minfo</span><span class="o">&gt;</span> <span class="n">good_marker_locations</span><span class="p">;</span>
+</span><span class="line">        <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">minfo</span><span class="o">&gt;</span> <span class="n">all_marker_locations</span><span class="p">;</span>
+</span><span class="line">
+</span><span class="line">        <span class="k">for</span><span class="p">(</span><span class="k">const</span> <span class="n">Marker</span> <span class="o">&amp;</span><span class="nl">marker</span><span class="p">:</span><span class="n">mapMarkers</span><span class="p">){</span><span class="c1">//for ech visible marker</span>
+</span><span class="line">             <span class="k">auto</span> <span class="n">mpi</span><span class="o">=</span><span class="n">solvePnP_</span><span class="p">(</span><span class="n">_map_mm</span><span class="p">[</span><span class="n">marker</span><span class="p">.</span><span class="n">id</span><span class="p">].</span> <span class="n">getMarkerSize</span><span class="p">(),</span><span class="n">marker</span><span class="p">,</span><span class="n">_cam_params</span><span class="p">.</span><span class="n">CameraMatrix</span><span class="p">,</span><span class="n">_cam_params</span><span class="p">.</span><span class="n">Distorsion</span><span class="p">);</span>
+</span><span class="line">            <span class="n">minfo</span> <span class="n">mi</span><span class="p">;</span>
+</span><span class="line">            <span class="n">mi</span><span class="p">.</span><span class="n">id</span><span class="o">=</span><span class="n">marker</span><span class="p">.</span><span class="n">id</span><span class="p">;</span>
+</span><span class="line">            <span class="n">mi</span><span class="p">.</span><span class="n">err</span><span class="o">=</span><span class="n">mpi</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+</span><span class="line">            <span class="n">mi</span><span class="p">.</span><span class="n">rt_f2m</span><span class="o">=</span><span class="n">mpi</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+</span><span class="line">            <span class="n">all_marker_locations</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">mi</span><span class="p">);</span>
+</span><span class="line">            <span class="k">if</span><span class="p">(</span><span class="n">mpi</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="o">/</span><span class="n">mpi</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">second</span> <span class="o">&gt;</span>  <span class="n">aruco_minerrratio_valid</span><span class="p">)</span>
+</span><span class="line">                <span class="n">good_marker_locations</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">mi</span><span class="p">);</span>
+</span><span class="line">            <span class="n">mi</span><span class="p">.</span><span class="n">rt_f2m</span><span class="o">=</span><span class="n">mpi</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">first</span><span class="p">;</span>
+</span><span class="line">            <span class="n">mi</span><span class="p">.</span><span class="n">err</span><span class="o">=</span><span class="n">mpi</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">second</span><span class="p">;</span>
+</span><span class="line">            <span class="n">all_marker_locations</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">mi</span><span class="p">);</span>
+</span><span class="line">
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line">        <span class="c1">//try using more than one marker approach</span>
+</span><span class="line">        <span class="k">if</span> <span class="p">(</span><span class="n">mapMarkers</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&gt;=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class="line">            <span class="c1">//collect all the markers 3d locations</span>
+</span><span class="line">            <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Point2f</span><span class="o">&gt;</span> <span class="n">markerPoints2d</span><span class="p">;</span>
+</span><span class="line">            <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Point3f</span><span class="o">&gt;</span> <span class="n">markerPoints3d</span><span class="p">;</span>
+</span><span class="line">	<span class="c1">//mapMarkers type: std::vector&lt;Marker&gt;</span>
+</span><span class="line">            <span class="k">for</span><span class="p">(</span><span class="k">const</span>   <span class="n">Marker</span> <span class="o">&amp;</span><span class="nl">marker</span><span class="p">:</span><span class="n">mapMarkers</span><span class="p">){</span>
+</span><span class="line">                <span class="n">markerPoints2d</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">markerPoints2d</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="n">marker</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">marker</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+</span><span class="line">                <span class="k">auto</span> <span class="n">p3d</span><span class="o">=</span> <span class="n">_map_mm</span><span class="p">[</span><span class="n">marker</span><span class="p">.</span><span class="n">id</span><span class="p">].</span><span class="n">points</span><span class="p">;</span>
+</span><span class="line">                <span class="n">markerPoints3d</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">markerPoints3d</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="n">p3d</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">p3d</span><span class="p">.</span><span class="n">end</span><span class="p">());</span>
+</span><span class="line">            <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+<p><code>cv::projectPoints</code> takes 3d points $(X,Y,Z,1)$ in global coordinate, R, t and camera matrix K as argument, and return the corresponding 2d points $(u,v,1)$.</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+Z
+\begin{bmatrix}
+u \\ v \\ 1
+\end{bmatrix}=
+\begin{bmatrix}
+f_x & 0 & c_x\\
+0 & f_y & c_y\\
+0 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+1 & 0 & 0 & 0\\
+0& 1 & 0 & 0\\
+0& 0 & 1 & 0\\
+\end{bmatrix}
+\begin{bmatrix}
+R_{11} & R_{12} & R_{13} & t_1\\
+R_{21} & R_{22} & R_{23} & t_2\\
+R_{31} & R_{32} & R_{33} & t_3\\
+0 & 0 & 0 & 1\\
+\end{bmatrix}
+\begin{bmatrix}
+X \\ Y \\ Z \\1
+\end{bmatrix} %]]></script>
+
+<figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="kt">double</span> <span class="nf">reprj_error</span><span class="p">(</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Point3f</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">objPoints</span><span class="p">,</span> <span class="k">const</span> <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Point2f</span><span class="o">&gt;</span><span class="n">points2d</span><span class="p">,</span> <span class="k">const</span> <span class="n">CameraParameters</span> <span class="o">&amp;</span><span class="n">imp</span><span class="p">,</span><span class="k">const</span> <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="o">&amp;</span><span class="n">rt44</span><span class="p">){</span>
+</span><span class="line">    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Point2f</span><span class="o">&gt;</span> <span class="n">prepj</span><span class="p">;</span>
+</span><span class="line">     <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span> <span class="n">rv</span><span class="p">,</span><span class="n">tv</span><span class="p">;</span>
+</span><span class="line">    <span class="n">impl__aruco_getRTfromMatrix44</span><span class="p">(</span><span class="n">rt44</span><span class="p">,</span><span class="n">rv</span><span class="p">,</span><span class="n">tv</span><span class="p">);</span>
+</span><span class="line">    <span class="n">cv</span><span class="o">::</span><span class="n">projectPoints</span><span class="p">(</span><span class="n">objPoints</span><span class="p">,</span><span class="n">rv</span><span class="p">,</span><span class="n">tv</span><span class="p">,</span><span class="n">imp</span><span class="p">.</span><span class="n">CameraMatrix</span><span class="p">,</span><span class="n">imp</span><span class="p">.</span><span class="n">Distorsion</span><span class="p">,</span><span class="n">prepj</span><span class="p">);</span>
+</span><span class="line">    <span class="kt">double</span> <span class="n">sum</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="kt">int</span> <span class="n">nvalid</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+</span><span class="line">    <span class="k">for</span><span class="p">(</span><span class="kt">size_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">prepj</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class="line">        <span class="k">if</span> <span class="p">(</span> <span class="o">!</span><span class="n">std</span><span class="o">::</span><span class="n">isnan</span><span class="p">(</span><span class="n">objPoints</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">x</span><span class="p">)){</span>
+</span><span class="line">             <span class="n">sum</span><span class="o">+=</span> <span class="n">cv</span><span class="o">::</span><span class="n">norm</span><span class="p">(</span> <span class="n">points2d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">prepj</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+</span><span class="line">              <span class="n">nvalid</span><span class="o">++</span><span class="p">;</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">    <span class="p">}</span>
+</span><span class="line">    <span class="k">return</span> <span class="n">sum</span><span class="o">/</span><span class="kt">double</span><span class="p">(</span><span class="n">nvalid</span><span class="p">);</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>marker_m2g</code></p>
+
+<p>type: <code>std::map&lt;uint32_t,cv::Mat&gt;</code></p>
+
+<p>usage: <code>marker_m2g[3] = T_mg</code> where <code>T_mg</code> is the 4x4 transformation matrix from map to global coordinate and 3 is the id of the marker.</p>
+
+<script type="math/tex; mode=display">p_m = T_{mg} p_g</script>
+
+<p><code>ml</code></p>
+
+<p>type: <code>minfo</code></p>
+
+<p>attribute: <code>rt_f2m</code> is the 4x4 transformation matrix from camera to map coordinate</p>
+
+<figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line">            <span class="c1">//take the all poses and select the one that minimizes the global reproj error</span>
+</span><span class="line">            <span class="k">for</span><span class="p">(</span><span class="k">auto</span> <span class="o">&amp;</span> <span class="nl">ml</span><span class="p">:</span><span class="n">all_marker_locations</span><span class="p">){</span>
+</span><span class="line">
+</span><span class="line">                <span class="c1">// rt_f2m is the 4x4 transformation matrix from camera to map coordinate</span>
+</span><span class="line">                <span class="k">auto</span> <span class="n">pose</span><span class="o">=</span> <span class="n">ml</span><span class="p">.</span><span class="n">rt_f2m</span> <span class="o">*</span><span class="n">marker_m2g</span><span class="p">[</span><span class="n">ml</span><span class="p">.</span><span class="n">id</span><span class="p">];</span>
+</span><span class="line">                <span class="c1">//now,  compute the repj error of all markers using this info</span>
+</span><span class="line">                <span class="n">ml</span><span class="p">.</span><span class="n">err</span><span class="o">=</span><span class="n">aruco_private</span><span class="o">::</span><span class="n">reprj_error</span><span class="p">(</span><span class="n">markerPoints3d</span><span class="p">,</span><span class="n">markerPoints2d</span><span class="p">,</span><span class="n">_cam_params</span><span class="p">,</span>  <span class="n">pose</span><span class="p">);</span>
+</span><span class="line">              <span class="p">}</span>
+</span><span class="line">            <span class="c1">//sort and get the best</span>
+</span><span class="line">            <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">all_marker_locations</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">all_marker_locations</span><span class="p">.</span><span class="n">end</span><span class="p">(),[](</span><span class="k">const</span> <span class="n">minfo</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="k">const</span> <span class="n">minfo</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">){</span><span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">err</span><span class="o">&lt;</span><span class="n">b</span><span class="p">.</span><span class="n">err</span><span class="p">;});</span>
+</span><span class="line">            <span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="o">&lt;&lt;</span><span class="s">&quot;err=&quot;</span><span class="o">&lt;&lt;</span><span class="n">all_marker_locations</span><span class="p">.</span><span class="n">front</span><span class="p">().</span><span class="n">err</span><span class="o">&lt;&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+</span><span class="line">            <span class="k">auto</span> <span class="o">&amp;</span><span class="n">best</span><span class="o">=</span><span class="n">all_marker_locations</span><span class="p">.</span><span class="n">front</span><span class="p">();</span>
+</span><span class="line">            <span class="n">pose_f2g_out</span><span class="o">=</span><span class="n">best</span><span class="p">.</span><span class="n">rt_f2m</span> <span class="o">*</span><span class="n">marker_m2g</span><span class="p">[</span><span class="n">best</span><span class="p">.</span><span class="n">id</span><span class="p">];</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">
+</span><span class="line">        <span class="k">if</span> <span class="p">(</span> <span class="n">pose_f2g_out</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span>  <span class="o">&amp;&amp;</span>  <span class="n">good_marker_locations</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span>
+</span><span class="line">            <span class="n">std</span><span class="o">::</span><span class="n">sort</span><span class="p">(</span><span class="n">good_marker_locations</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="n">good_marker_locations</span><span class="p">.</span><span class="n">end</span><span class="p">(),[](</span><span class="k">const</span> <span class="n">minfo</span> <span class="o">&amp;</span><span class="n">a</span><span class="p">,</span><span class="k">const</span> <span class="n">minfo</span> <span class="o">&amp;</span><span class="n">b</span><span class="p">){</span><span class="k">return</span> <span class="n">a</span><span class="p">.</span><span class="n">err</span><span class="o">&lt;</span><span class="n">b</span><span class="p">.</span><span class="n">err</span><span class="p">;});</span>
+</span><span class="line">            <span class="k">auto</span> <span class="n">best</span><span class="o">=</span><span class="n">good_marker_locations</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class="line">            <span class="c1">//estimate current location</span>
+</span><span class="line">            <span class="n">pose_f2g_out</span><span class="o">=</span> <span class="n">best</span><span class="p">.</span><span class="n">rt_f2m</span> <span class="o">*</span><span class="n">marker_m2g</span><span class="p">[</span><span class="n">best</span><span class="p">.</span><span class="n">id</span><span class="p">];</span>
+</span><span class="line">        <span class="p">}</span>
+</span><span class="line">        <span class="k">return</span>   <span class="n">pose_f2g_out</span><span class="p">;</span>
+</span><span class="line">    <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>the function <code>relocalization</code> will call the following function <code>solvePnP_</code>, which will in turn call <code>solvePoseOfCentredSquare</code>, <code>solvePnP_</code> takes the marker size, image point in 2d ($\omega(u)$) and camera parameters as argument.</p>
+
+<figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">pair</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Mat</span><span class="p">,</span><span class="kt">double</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">solvePnP_</span><span class="p">(</span><span class="kt">float</span> <span class="n">size</span><span class="p">,</span><span class="k">const</span>  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">cv</span><span class="o">::</span><span class="n">Point2f</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">imgPoints</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">InputArray</span> <span class="n">cameraMatrix</span><span class="p">,</span> <span class="n">cv</span><span class="o">::</span><span class="n">InputArray</span> <span class="n">distCoeffs</span><span class="p">){</span>
+</span><span class="line">    <span class="n">cv</span><span class="o">::</span><span class="n">Mat</span>   <span class="n">Rvec</span><span class="p">,</span> <span class="n">Tvec</span><span class="p">,</span> <span class="n">Rvec2</span><span class="p">,</span><span class="n">Tvec2</span><span class="p">;</span>
+</span><span class="line">    <span class="kt">float</span> <span class="n">reprojErr1</span><span class="p">,</span> <span class="n">reprojErr2</span><span class="p">;</span>
+</span><span class="line">    <span class="n">solvePoseOfCentredSquare</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">imgPoints</span><span class="p">,</span>  <span class="n">cameraMatrix</span><span class="p">,</span> <span class="n">distCoeffs</span><span class="p">,</span>   <span class="n">Rvec</span><span class="p">,</span> <span class="n">Tvec</span><span class="p">,</span><span class="n">reprojErr1</span><span class="p">,</span><span class="n">Rvec2</span><span class="p">,</span><span class="n">Tvec2</span><span class="p">,</span><span class="n">reprojErr2</span><span class="p">);</span>
+</span><span class="line">    <span class="k">return</span> <span class="p">{</span><span class="n">make_pair</span><span class="p">(</span><span class="n">getRTMatrix</span><span class="p">(</span><span class="n">Rvec</span><span class="p">,</span><span class="n">Tvec</span><span class="p">,</span><span class="n">CV_32F</span><span class="p">),</span><span class="n">reprojErr1</span><span class="p">),</span> <span class="n">make_pair</span><span class="p">(</span><span class="n">getRTMatrix</span><span class="p">(</span><span class="n">Rvec2</span><span class="p">,</span><span class="n">Tvec2</span><span class="p">,</span><span class="n">CV_32F</span><span class="p">),</span><span class="n">reprojErr2</span><span class="p">)</span> <span class="p">}</span> <span class="p">;</span>
+</span><span class="line">
+</span><span class="line">
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2018/10/01/use-aruco-to-estimate-pose/">Use Aruco to Estimate Pose</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2018-10-01T15:14:32+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>1</span><span class='date-suffix'>st</span>, <span class='date-year'>2018</span></span> <span class='time'>3:14 pm</span></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2 id="download-aruco-library">Download Aruco library</h2>
+
+<p><a href="https://sourceforge.net/projects/aruco/files/3.0.0/aruco-3.0.6.zip/download">Download Aruco library</a></p>
+
+<h2 id="build-aruco-library">Build Aruco library</h2>
+
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd aruco-3.0.6
+</span><span class="line">mkdir build
+</span><span class="line">cd  build 
+</span><span class="line">cmake .. 
+</span><span class="line">sudo make install</span></code></pre></td></tr></table></div></figure>
+
+<h2 id="create-map">Create map</h2>
+
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">cd /usr/local/bin/
+</span><span class="line">./aruco_create_markermap 1:3 /home/skye/image.png /home/skye/config.yml -d TAG16h5
+</span></code></pre></td></tr></table></div></figure>
+
+<p>After printing out the map, measure the length of the marker, suppose the marker size is 0.127 meter, then</p>
+
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">./aruco_markermap_pix2meters /home/skye/config.yml 0.127 /home/skye/config_meter.yml 
+</span></code></pre></td></tr></table></div></figure>
+
+<p>if you get the following error libaruco.so.3.0: cannot open shared object file: No such file or directory</p>
+
+<figure class="code"><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class=""><span class="line">export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+</span></code></pre></td></tr></table></div></figure>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -77,6 +495,14 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2018/10/03/aruco-posetracker/">Aruco Posetracker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2018/10/01/use-aruco-to-estimate-pose/">Use Aruco to Estimate Pose</a>
+      </li>
     
   </ul>
 </section>
