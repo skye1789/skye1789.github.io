@@ -1,0 +1,14 @@
+---
+layout: post
+title: "test"
+date: 2018-10-04 10:27:19 +0800
+comments: true
+categories:
+---
+
+`marker_m2g`
+
+type: `std::map<uint32_t,cv::Mat>`  
+
+usage: `marker_m2g[3] = T_mg` where `T_mg` is the 4x4 transformation matrix from map to global coordinate.  
+$$p_m = T_{mg} p_g$$
