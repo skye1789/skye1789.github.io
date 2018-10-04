@@ -115,7 +115,11 @@ usage: `marker_m2g[3] = T_mg` where `T_mg` is the 4x4 transformation matrix from
 $$p_m = T_{mg} p_g$$
 
 
+`ml`
 
+type: `minfo`
+
+attribute: `rt_f2m` is the 4x4 transformation matrix from camera to map coordinate
 
 
 ```c++
@@ -123,6 +127,7 @@ $$p_m = T_{mg} p_g$$
             //take the all poses and select the one that minimizes the global reproj error
             for(auto & ml:all_marker_locations){
 
+                // rt_f2m is the 4x4 transformation matrix from camera to map coordinate
                 auto pose= ml.rt_f2m *marker_m2g[ml.id];
                 //now,  compute the repj error of all markers using this info
                 ml.err=aruco_private::reprj_error(markerPoints3d,markerPoints2d,_cam_params,  pose);
